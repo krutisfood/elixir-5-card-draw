@@ -35,6 +35,36 @@ defmodule DealerTest do
     assert Dealer.name_hand(four_of_a_kind) == :four_of_a_kind
   end
 
+  test "names aces full of kings a full house" do
+    aces_full_of_kings = [{14,:hearts},{14,:clubs},{14,:spades},{13,:diamonds},{13,:hearts}]
+    assert Dealer.name_hand(aces_full_of_kings) == :full_house
+  end
+
+  test "names kings full of aces a full house" do
+    aces_full_of_kings = [{14,:hearts},{14,:clubs},{13,:spades},{13,:diamonds},{13,:hearts}]
+    assert Dealer.name_hand(aces_full_of_kings) == :full_house
+  end
+
+  test "names hand full of hearts as flush" do
+    heart_flush = [{14,:hearts},{8,:hearts},{5,:hearts},{3,:hearts},{1,:hearts}]
+    assert Dealer.name_hand(heart_flush) == :flush
+  end
+
+  # Test some draws
+  test "ace high flush beats jack high flush" do
+    ace_high_flush = [{14,:hearts},{8,:hearts},{5,:hearts},{3,:hearts},{1,:hearts}]
+    jack_high_flush = [{11,:clubs},{8,:clubs},{5,:clubs},{3,:clubs},{1,:clubs}]
+    assert ace_high_flush |> Dealer.says_beats jack_high_flush
+  end
+
+  # Test some draws
+  test "eight high flush does not beat jack high flush" do
+    eight_high_flush = [{8,:hearts},{7,:hearts},{5,:hearts},{3,:hearts},{1,:hearts}]
+    jack_high_flush = [{11,:clubs},{8,:clubs},{5,:clubs},{3,:clubs},{1,:clubs}]
+    refute eight_high_flush |> Dealer.says_beats jack_high_flush
+  end
+
+
   # Test dealing
   test "deal six players returns six hands of five cards" do
     six_players = 6
@@ -48,19 +78,13 @@ defmodule DealerTest do
       assert Enum.count(hand) == 5
     end
 
-    #five_per_hand? = fn(hand) ->
-      #number_of_cards = hand |> Enum.count 
-      #assert number_of_cards == 5
+    # Couldn't get this working
+    #has_five_cards? = fn(hand) ->
+      #assert Enum.count(hand) == 5
     #end
-    #dealt_hands |> Enum.all? five_per_hand?/1
+    #dealt_hands |> Enum.all?(has_five_cards?/2)
 
     number_of_hands = dealt_hands |> Enum.count
     assert number_of_hands == six_players
-
-    #for hand <- dealt_hands, do
-      #IO.puts "Got #{hand}"
-    #end
-    #for hand <- dealt_hands, do:
-      #assert(Enum.count <- hand == 5)
   end
 end

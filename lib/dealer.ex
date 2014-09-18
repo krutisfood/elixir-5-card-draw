@@ -10,8 +10,7 @@ defmodule Dealer do
   end
 
   def deal(no_players, deck) do
-    six_players = 6
-    no_cards_required = six_players * 5
+    no_cards_required = no_players * 5
     deck |> Enum.take(no_cards_required) |> Enum.chunk 5
   end
 
@@ -22,8 +21,12 @@ defmodule Dealer do
   # four of a kind
   def name_hand([{a,_}, {a,_}, {a,_}, {a,_}, {_,_}]), do: :four_of_a_kind 
 
-#  full_house
-#  flush
+  #  full_house
+  def name_hand([{a,_}, {a,_}, {a,_}, {b,_}, {b,_}]), do: :full_house
+  def name_hand([{a,_}, {a,_}, {b,_}, {b,_}, {b,_}]), do: :full_house
+
+  #  flush
+  def name_hand([{_,a}, {_,a}, {_,a}, {_,a}, {_,a}]), do: :flush
 #  straight
 #  three_of_a_kind
 #  two_pair
@@ -31,6 +34,11 @@ defmodule Dealer do
 #  high_card
 
   def name_hand(_), do: :high_card
+
+  def says_beats(hand1, hand2) do
+    IO.puts "Does it do anything?"
+    true
+  end
 
   # if hand1_rank > hand2_rank
   #   return hand1 wins
