@@ -54,14 +54,14 @@ defmodule DealerTest do
   test "ace high flush beats jack high flush" do
     ace_high_flush = [{14,:hearts},{8,:hearts},{5,:hearts},{3,:hearts},{1,:hearts}]
     jack_high_flush = [{11,:clubs},{8,:clubs},{5,:clubs},{3,:clubs},{1,:clubs}]
-    assert ace_high_flush |> Dealer.says_beats jack_high_flush
+    assert ace_high_flush |> Dealer.declares_defeats jack_high_flush
   end
 
   # Test some draws
   test "eight high flush does not beat jack high flush" do
     eight_high_flush = [{8,:hearts},{7,:hearts},{5,:hearts},{3,:hearts},{1,:hearts}]
     jack_high_flush = [{11,:clubs},{8,:clubs},{5,:clubs},{3,:clubs},{1,:clubs}]
-    refute eight_high_flush |> Dealer.says_beats jack_high_flush
+    refute eight_high_flush |> Dealer.declares_defeats jack_high_flush
   end
 
 
